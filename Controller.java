@@ -175,12 +175,18 @@ public class Controller{
             logArea.setDisable(false);
 
             //create random buf IN flights
+            LocalTime bufTime = LocalTime.of(SpinSTARThourIN.getValue(), SpinSTARTminIN.getValue(), SpinSTARTsecIN.getValue());
             for (int i = 0; i < CountFlightsIN; i++){
                 //temps
                 Plane temp = planes.get(random.nextInt(12));
                 int flagAirLine = random.nextInt(airlines.length);
                 int flagDirect = random.nextInt(directions.length);
-                Time bufTime = new Time(SpinSTARThourIN.getValue()+ i*SpinDELhourIN.getValue(),SpinSTARTminIN.getValue()+ i*SpinDELminIN.getValue(),SpinSTARTsecIN.getValue()+ i*SpinDELsecIN.getValue());
+                if (i != 0) {
+                    bufTime = bufTime.plusHours(SpinDELhourIN.getValue());
+                    bufTime = bufTime.plusMinutes(SpinDELminIN.getValue());
+                    bufTime = bufTime.plusSeconds(SpinDELsecIN.getValue());
+                }
+
 
                 flightsIN[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(9000)+1000, directions[flagDirect], bufTime,true,random.nextInt(210)+50,random.nextInt(2400) +600);
 
@@ -191,13 +197,16 @@ public class Controller{
             }
 
             //create random temp out flights
+            bufTime = LocalTime.of(SpinSTARThourOUT.getValue(), SpinSTARTminOUT.getValue(), SpinSTARTsecOUT.getValue());
             for (int i = 0; i < CountFlightsOUT; i++){
                 Plane temp = planes.get(random.nextInt(12));
                 int flagAirLine = random.nextInt(airlines.length);
                 int flagDirect = random.nextInt(directions.length);
-
-                Time bufTime = new Time(SpinSTARThourOUT.getValue()+ i*SpinDELhourOUT.getValue(),SpinSTARTminOUT.getValue()+ i*SpinDELminOUT.getValue(),SpinSTARTsecOUT.getValue()+ i*SpinDELsecOUT.getValue());
-
+                if (i != 0) {
+                    bufTime = bufTime.plusHours(SpinDELhourOUT.getValue());
+                    bufTime = bufTime.plusMinutes(SpinDELminOUT.getValue());
+                    bufTime = bufTime.plusSeconds(SpinDELsecOUT.getValue());
+                }
                 flightsOUT[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(9000)+1000, directions[flagDirect], bufTime);
 
                 log += "create OUT_#" + temp.name + " " + airlines[flagAirLine].name() + "\n";

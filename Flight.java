@@ -1,6 +1,6 @@
 package sample;
 
-import java.sql.Time;
+import java.time.LocalTime;
 
 enum Airline{
     SBI,//S7,
@@ -12,7 +12,7 @@ enum Airline{
     UAE//EmiratesAirline
 }
 enum Direction{
-    North,East,West,South,NorthWest,NorthEast,SouthWest,SouthEast
+    NorthWest,NorthEast,East,West,SouthWest,SouthEast
 }
 /**
  *
@@ -23,12 +23,12 @@ public class Flight{
     int number;
     Plane plane;
     Direction direction;
-    Time time;
+    LocalTime time;
     boolean status;
     int distance;
     int hight;
 
-    Flight(Plane P, Airline NameCompany, int numb, Direction dir, Time t, boolean state, int dist, int hig){ //для посадки
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t, boolean state, int dist, int hig){ //для посадки
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;
@@ -39,7 +39,7 @@ public class Flight{
         this.hight = hig;
     }
 
-    Flight(Plane P, Airline NameCompany, int numb, Direction dir, Time t){ //для взлета
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t){ //для взлета
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;
