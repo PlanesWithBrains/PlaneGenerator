@@ -102,12 +102,12 @@ public class Controller{
         //TIME START
 
         //TIME NOW
-        Time NOW = new Time(LocalTime.now().getHour(),LocalTime.now().getMinute(), LocalTime.now().getSecond());
+        LocalTime NOW = LocalTime.now();
 
                 //VALUE FACTORY
-        SpinnerValueFactory<Integer> gradesHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,NOW.getHours());
-        SpinnerValueFactory<Integer> gradesMin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinutes());
-        SpinnerValueFactory<Integer> gradesSec = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,NOW.getSeconds());
+        SpinnerValueFactory<Integer> gradesHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,NOW.getHour());
+        SpinnerValueFactory<Integer> gradesMin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinute());
+        SpinnerValueFactory<Integer> gradesSec = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,NOW.getSecond());
 
         SpinnerValueFactory<Integer> gradesHourDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,0);
         SpinnerValueFactory<Integer> gradesMinDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,30);
@@ -131,9 +131,9 @@ public class Controller{
 
 
         //OUT
-        SpinnerValueFactory<Integer> gradesHour1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,NOW.getHours());
-        SpinnerValueFactory<Integer> gradesMin1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,NOW.getMinutes());
-        SpinnerValueFactory<Integer> gradesSec1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSeconds());
+        SpinnerValueFactory<Integer> gradesHour1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,NOW.getHour());
+        SpinnerValueFactory<Integer> gradesMin1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,NOW.getMinute());
+        SpinnerValueFactory<Integer> gradesSec1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSecond());
 
         SpinnerValueFactory<Integer> gradesHourDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,0);
         SpinnerValueFactory<Integer> gradesMinDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,30);
