@@ -286,6 +286,8 @@ public class Controller{
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    //подумать над возвращаемым значением - двумерный массив оч долго
     public double[][] generateDistANDHight (int count){
         //так же, поступает n - кол-во элементов
         double[][] res = new double[count][2];
