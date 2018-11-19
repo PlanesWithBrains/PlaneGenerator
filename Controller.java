@@ -5,9 +5,9 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.DirectoryIteratorException;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
 
 
 import javax.swing.*;
@@ -129,22 +130,24 @@ public class Controller{
 
 
     public void filechooser(javafx.event.ActionEvent actionEvent) {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int chooseDirectiry = fc.showOpenDialog(null);
-        if (chooseDirectiry == JFileChooser.APPROVE_OPTION){
-            FieldPathIN.setText(fc.getSelectedFile().getAbsolutePath()+"\\testINPUT.json");
-        }
-
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose directory");
+        //ONLY FOR WINDOWS
+        //File defaultDirectory = new File(System.getProperty("user.home")+"\\Documents\\");
+        //chooser.setInitialDirectory(defaultDirectory);
+        File selectedDirectory = chooser.showDialog(null);
+        FieldPathIN.setText(selectedDirectory.getAbsolutePath()+"\\testINPUT.json");
     }
     public void filechooserOUT(javafx.event.ActionEvent actionEvent) {
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int chooseDirectiry = fc.showOpenDialog(null);
-        if (chooseDirectiry == JFileChooser.APPROVE_OPTION){
-            FieldPathOUT.setText(fc.getSelectedFile().getAbsolutePath()+"\\testOUTPUT.json");
-        }
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose directory");
 
+        //ONLY FOR WINDOWS
+        //File defaultDirectory = new File(System.getProperty("user.home")+"\\Documents\\");
+        //chooser.setInitialDirectory(defaultDirectory);
+
+        File selectedDirectory = chooser.showDialog(null);
+        FieldPathOUT.setText(selectedDirectory.getAbsolutePath()+"\\testOUTPUT.json");
     }
 
     void initializeSPINNERS(LocalTime NOW){
@@ -231,7 +234,7 @@ public class Controller{
 
         Flight flightsIN[] = new Flight[CountFlightsIN];
 
-        double[][] hightDist = generateDistANDHight(CountFlightsIN);
+        double[]hightDist = generateDistANDHight(CountFlightsIN);
 
         //create random buf IN flights
         for (int i = 0; i < CountFlightsIN; i++) {
@@ -241,10 +244,10 @@ public class Controller{
             int flagDirect = random.nextInt(directions.length);
 
             flightsIN[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(900) + 100,
-                    directions[flagDirect], NOW, true, hightDist[i][1], hightDist[i][0]);
+                    directions[flagDirect], NOW, true, hightDist[i+CountFlightsIN], hightDist[i]);
 
-            System.out.println("create IN ↓ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Distance: " + hightDist[i][1] +" |Hight: " + hightDist[i][0]);
-            table.add(new TableIN(flightsIN[i].number,flightsIN[i].carrier,hightDist[i][1], hightDist[i][0], flightsIN[i].plane));
+            System.out.println("create IN ↓ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Distance: " + hightDist[i+CountFlightsIN] +" |Hight: " + hightDist[i]);
+            table.add(new TableIN(flightsIN[i].number,flightsIN[i].carrier,hightDist[i+CountFlightsIN], hightDist[i], flightsIN[i].plane));
         }
             try {
                 createJson(FieldPathIN.getText(), flightsIN);
@@ -288,9 +291,9 @@ public class Controller{
     }
 
     //подумать над возвращаемым значением - двумерный массив оч долго
-    public double[][] generateDistANDHight (int count){
+    public double[] generateDistANDHight (int count){
         //так же, поступает n - кол-во элементов
-        double[][] res = new double[count][2];
+        double[] res = new double[count*2];
         double[] hight = new double[count];
         double[] dist = new double[count];
 
@@ -331,11 +334,10 @@ public class Controller{
         }
         for(int i=0;i<count;i++){
             System.out.println((int)(hight[i]*1000)+"м" + "\t" +(int)dist[i]+"км");
-            res[i][0] = (int)hight[i];
-            res[i][1] = (int)dist[i];
+            res[i] = (int)hight[i];
+            res[i+count]= (int)dist[i];
         }
         return res;
     }
-   // firstTextCol.setStyle( "-fx-alignment: CENTER-RIGHT;");
 }
 
