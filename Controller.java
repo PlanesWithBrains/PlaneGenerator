@@ -136,7 +136,12 @@ public class Controller{
         //File defaultDirectory = new File(System.getProperty("user.home")+"\\Documents\\");
         //chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
-        FieldPathIN.setText(selectedDirectory.getAbsolutePath()+"\\testINPUT.json");
+        if (selectedDirectory == null){
+            System.out.println((char)27 + "[32mWARNING: (#FileChooser) no directory selected"+(char)27+"[30m");
+            System.out.println((char) 27 + "[30m");
+        }
+        else
+            FieldPathIN.setText(selectedDirectory.getAbsolutePath()+"\\testINPUT.json");
     }
     public void filechooserOUT(javafx.event.ActionEvent actionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
@@ -147,6 +152,11 @@ public class Controller{
         //chooser.setInitialDirectory(defaultDirectory);
 
         File selectedDirectory = chooser.showDialog(null);
+        if (selectedDirectory == null) {
+            System.out.println((char)27 + "[32mWARNING: (#FileChooser) no directory selected"+(char)27+"[30m");
+            System.out.println((char) 27 + "[30m");
+        }
+        else
         FieldPathOUT.setText(selectedDirectory.getAbsolutePath()+"\\testOUTPUT.json");
     }
 
@@ -229,7 +239,7 @@ public class Controller{
 
     void createFileInput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, LocalTime NOW, ObservableList<TableIN> table){
 
-        System.out.println(FieldPathIN.getText());
+        System.out.println((char) 27 + "[34m"+"\n"+FieldPathIN.getText());;
         int CountFlightsIN = SpinCountPlaneIN.getValue();
 
         Flight flightsIN[] = new Flight[CountFlightsIN];
@@ -246,7 +256,7 @@ public class Controller{
             flightsIN[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(900) + 100,
                     directions[flagDirect], NOW, true, hightDist[i+CountFlightsIN], hightDist[i]);
 
-            System.out.println("create IN ↓ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Distance: " + hightDist[i+CountFlightsIN] +" |Hight: " + hightDist[i]);
+            System.out.println((char) 27 + "[30mcreate IN ↓ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Distance: " + hightDist[i+CountFlightsIN] +" |Hight: " + hightDist[i]);
             table.add(new TableIN(flightsIN[i].number,flightsIN[i].carrier,hightDist[i+CountFlightsIN], hightDist[i], flightsIN[i].plane));
         }
             try {
@@ -258,7 +268,7 @@ public class Controller{
             }
     }
     void createFileOutput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, ObservableList<TableOUT> table){
-        System.out.println(FieldPathOUT.getText());
+        System.out.println((char) 27 + "[34m"+"\n"+FieldPathOUT.getText());
         int CountFlightsOUT = SpinCountPlaneOUT.getValue();
 
         Flight flightsOUT[] = new Flight[CountFlightsOUT];
@@ -278,7 +288,7 @@ public class Controller{
             }
             flightsOUT[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(900)+100, directions[flagDirect], bufTime);
             table.add(new TableOUT( flightsOUT[i].number, flightsOUT[i].carrier, bufTime,  flightsOUT[i].plane));
-            System.out.println("create OUT ↑ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Time: " + bufTime.toString());
+            System.out.println((char) 27 + "[30mcreate OUT ↑ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Time: " + bufTime.toString());
         }
 
         try {
@@ -333,7 +343,7 @@ public class Controller{
             }
         }
         for(int i=0;i<count;i++){
-            System.out.println((int)(hight[i]*1000)+"м" + "\t" +(int)dist[i]+"км");
+            //System.out.println((int)(hight[i]*1000)+"м" + "\t" +(int)dist[i]+"км");
             res[i] = (int)hight[i];
             res[i+count]= (int)dist[i];
         }
