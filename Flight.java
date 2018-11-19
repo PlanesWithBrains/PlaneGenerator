@@ -3,13 +3,13 @@ package sample;
 import java.time.LocalTime;
 
 enum Airline{
-    SBI,//S7,
-    AFL,//Аэрофлот,
-    NWS,//Nordwind,
-    AZO, //Азимут
-    PBD,//Победа,
-    QTR,//QatarAirways,
-    UAE//EmiratesAirline
+    S7,//S7,
+    SU,//Аэрофлот,
+    N4,//Nordwind,
+    A4, //Азимут
+    DP,//Победа,
+    QR,//QatarAirways,
+    EK//EmiratesAirline
 }
 enum Direction{
     NorthWest,NorthEast,East,West,SouthWest,SouthEast
@@ -25,10 +25,10 @@ public class Flight{
     Direction direction;
     LocalTime time;
     boolean status;
-    int distance;
-    int hight;
+    double distance;
+    double hight;
 
-    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t, boolean state, int dist, int hig){ //для посадки
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t, boolean state, double dist, double hig){ //для посадки
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;

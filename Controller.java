@@ -5,18 +5,19 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.URL;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Random;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 import javax.swing.*;
@@ -44,27 +45,6 @@ public class Controller{
     private Spinner<Integer> SpinCountPlaneIN;
     @FXML
     private Spinner<Integer> SpinCountPlaneOUT;
-
-    @FXML
-    private TextArea logArea;
-
-    @FXML
-    private Spinner<Integer> SpinSTARThourIN;
-
-    @FXML
-    private Spinner<Integer> SpinSTARTminIN;
-
-    @FXML
-    private Spinner<Integer> SpinSTARTsecIN;
-
-    @FXML
-    private Spinner<Integer> SpinDELhourIN;
-
-    @FXML
-    private Spinner<Integer> SpinDELminIN;
-
-    @FXML
-    private Spinner<Integer> SpinDELsecIN;
     @FXML
     private Spinner<Integer> SpinSTARThourOUT;
 
@@ -82,150 +62,58 @@ public class Controller{
 
     @FXML
     private Spinner<Integer> SpinDELsecOUT;
+    @FXML
+    private TableView<TableIN> TableIN;
+
+    @FXML
+    private TableColumn<TableIN, String> columnTripIN;
+
+    @FXML
+    private TableColumn<TableIN, String> columnPlaneIN;
+
+    @FXML
+    private TableColumn<TableIN, String> columnDistance;
+
+    @FXML
+    private TableColumn<TableIN, String> columnHight;
+
+    @FXML
+    private TableView<TableOUT> TableOUT;
+
+    @FXML
+    private TableColumn<TableOUT, String> columnTripOUT;
+
+    @FXML
+    private TableColumn<TableOUT, String> columnPlaneOUT;
+
+    @FXML
+    private TableColumn<TableOUT, String> columnTime;
 
 
     @FXML
     void initialize() {
-
-
-
-        //spinners
-
-        //count planes IN
-        SpinnerValueFactory<Integer> gradesCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2000,50);
-        SpinCountPlaneIN.setValueFactory(gradesCount);
-        SpinCountPlaneIN.setEditable(true);
-        //count planes OUT
-        SpinnerValueFactory<Integer> gradesCount1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2000,50);
-        SpinCountPlaneOUT.setValueFactory(gradesCount1);
-        SpinCountPlaneOUT.setEditable(true);
-        //TIME START
-
-        //TIME NOW
         LocalTime NOW = LocalTime.now();
 
-                //VALUE FACTORY
-        SpinnerValueFactory<Integer> gradesHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,NOW.getHour());
-        SpinnerValueFactory<Integer> gradesMin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinute());
-        SpinnerValueFactory<Integer> gradesSec = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,NOW.getSecond());
+        initializeSPINNERS(NOW);
+        initializeTable();
 
-        SpinnerValueFactory<Integer> gradesHourDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,0);
-        SpinnerValueFactory<Integer> gradesMinDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,30);
-        SpinnerValueFactory<Integer> gradesSecDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,30);
-
-        SpinSTARThourIN.setValueFactory(gradesHour);
-        SpinSTARTminIN.setValueFactory(gradesMin);
-        SpinSTARTsecIN.setValueFactory(gradesSec);
-
-        SpinDELhourIN.setValueFactory(gradesHourDEL);
-        SpinDELminIN.setValueFactory(gradesMinDEL);
-        SpinDELsecIN.setValueFactory(gradesSecDEL);
-
-        SpinSTARThourIN.setEditable(true);
-        SpinSTARTminIN.setEditable(true);
-        SpinSTARTsecIN.setEditable(true);
-
-        SpinDELhourIN.setEditable(true);
-        SpinDELminIN.setEditable(true);
-        SpinDELsecIN.setEditable(true);
-
-
-        //OUT
-        SpinnerValueFactory<Integer> gradesHour1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,NOW.getHour());
-        SpinnerValueFactory<Integer> gradesMin1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,NOW.getMinute());
-        SpinnerValueFactory<Integer> gradesSec1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSecond());
-
-        SpinnerValueFactory<Integer> gradesHourDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23,0);
-        SpinnerValueFactory<Integer> gradesMinDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,30);
-        SpinnerValueFactory<Integer> gradesSecDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59,30);
-
-        SpinSTARThourOUT.setValueFactory(gradesHour1);
-        SpinSTARTminOUT.setValueFactory(gradesMin1);
-        SpinSTARTsecOUT.setValueFactory(gradesSec1);
-
-        SpinDELhourOUT.setValueFactory(gradesHourDEL1);
-        SpinDELminOUT.setValueFactory(gradesMinDEL1);
-        SpinDELsecOUT.setValueFactory(gradesSecDEL1);
-
-        SpinSTARThourOUT.setEditable(true);
-        SpinSTARTminOUT.setEditable(true);
-        SpinSTARTsecOUT.setEditable(true);
-
-        SpinDELhourOUT.setEditable(true);
-        SpinDELminOUT.setEditable(true);
-        SpinDELsecOUT.setEditable(true);
-
+        FieldPathIN.setText(System.getProperty("user.home")+"\\Documents\\"+"testIN.json");
+        FieldPathOUT.setText(System.getProperty("user.home")+"\\Documents\\"+"testOUT.json");
 
         startGENButton.setOnAction(event -> {
-            System.out.println(FieldPathIN.getText());
-            System.out.println(FieldPathOUT.getText());
+            //table buffers
+            ObservableList<TableIN> bufIN = FXCollections.observableArrayList();
+            ObservableList<TableOUT> bufOUT = FXCollections.observableArrayList();
 
-            int CountFlightsIN = SpinCountPlaneIN.getValue();
-            int CountFlightsOUT = SpinCountPlaneOUT.getValue();
+            createFileInput(Plane.getPlanes(),Airline.values(), Direction.values(), NOW, bufIN);
+            createFileOutput(Plane.getPlanes(),Airline.values(), Direction.values(), bufOUT);
 
-            ArrayList<Plane> planes = Plane.getPlanes();
-            Flight flightsIN[] = new Flight[CountFlightsIN];
-            Flight flightsOUT[] = new Flight[CountFlightsOUT];
-
-            Airline[] airlines = Airline.values();
-            Direction[] directions = Direction.values();
-
-
-            String log = "";
-            logArea.setDisable(false);
-
-            //create random buf IN flights
-            LocalTime bufTime = LocalTime.of(SpinSTARThourIN.getValue(), SpinSTARTminIN.getValue(), SpinSTARTsecIN.getValue());
-            for (int i = 0; i < CountFlightsIN; i++){
-                //temps
-                Plane temp = planes.get(random.nextInt(12));
-                int flagAirLine = random.nextInt(airlines.length);
-                int flagDirect = random.nextInt(directions.length);
-                if (i != 0) {
-                    bufTime = bufTime.plusHours(SpinDELhourIN.getValue());
-                    bufTime = bufTime.plusMinutes(SpinDELminIN.getValue());
-                    bufTime = bufTime.plusSeconds(SpinDELsecIN.getValue());
-                }
-
-
-                flightsIN[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(9000)+1000, directions[flagDirect], bufTime,true,random.nextInt(210)+50,random.nextInt(2400) +600);
-
-                log += "create IN_#" + temp.name + " " + airlines[flagAirLine].name() + "\n";
-                logArea.setText(log);
-
-
-            }
-
-            //create random temp out flights
-            bufTime = LocalTime.of(SpinSTARThourOUT.getValue(), SpinSTARTminOUT.getValue(), SpinSTARTsecOUT.getValue());
-            for (int i = 0; i < CountFlightsOUT; i++){
-                Plane temp = planes.get(random.nextInt(12));
-                int flagAirLine = random.nextInt(airlines.length);
-                int flagDirect = random.nextInt(directions.length);
-                if (i != 0) {
-                    bufTime = bufTime.plusHours(SpinDELhourOUT.getValue());
-                    bufTime = bufTime.plusMinutes(SpinDELminOUT.getValue());
-                    bufTime = bufTime.plusSeconds(SpinDELsecOUT.getValue());
-                }
-                flightsOUT[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(9000)+1000, directions[flagDirect], bufTime);
-
-                log += "create OUT_#" + temp.name + " " + airlines[flagAirLine].name() + "\n";
-                logArea.setText(log);
-
-
-            }
-
-            try {
-                CreateJson(FieldPathIN.getText(), flightsIN);
-                CreateJson(FieldPathOUT.getText(), flightsOUT);
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            TableIN.setItems(bufIN);
+            TableOUT.setItems(bufOUT);
         });
     }
-    boolean CreateJson(String PATH,Flight[] buf) throws IOException, InterruptedException{
+
+    boolean createJson(String PATH, Flight[] buf) throws IOException, InterruptedException{
         Gson gson = new Gson();
         try(FileWriter wr = new FileWriter(PATH)) {
             //wr.write(gson.toJson(delay));
@@ -234,7 +122,6 @@ public class Controller{
         }
         catch(IOException ex) {
             System.out.println(ex.getMessage());
-            logArea.setText(ex.getMessage());
             return false;
         }
         return true;
@@ -259,5 +146,194 @@ public class Controller{
         }
 
     }
+
+    void initializeSPINNERS(LocalTime NOW){
+        //spinners
+
+        //count planes IN
+        SpinnerValueFactory<Integer> gradesCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2000, 50);
+        SpinCountPlaneIN.setValueFactory(gradesCount);
+        SpinCountPlaneIN.setEditable(true);
+        //count planes OUT
+        SpinnerValueFactory<Integer> gradesCount1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2000, 50);
+        SpinCountPlaneOUT.setValueFactory(gradesCount1);
+        SpinCountPlaneOUT.setEditable(true);
+        //TIME START
+
+        //TIME NOW
+
+//        //VALUE FACTORY
+//        SpinnerValueFactory<Integer> gradesHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, NOW.getHour());
+//        SpinnerValueFactory<Integer> gradesMin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinute());
+//        SpinnerValueFactory<Integer> gradesSec = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSecond());
+//
+//        SpinnerValueFactory<Integer> gradesHourDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
+//        SpinnerValueFactory<Integer> gradesMinDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30);
+//        SpinnerValueFactory<Integer> gradesSecDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30);
+//
+//        SpinSTARThourIN.setValueFactory(gradesHour);
+//        SpinSTARTminIN.setValueFactory(gradesMin);
+//        SpinSTARTsecIN.setValueFactory(gradesSec);
+//
+//        SpinDELhourIN.setValueFactory(gradesHourDEL);
+//        SpinDELminIN.setValueFactory(gradesMinDEL);
+//        SpinDELsecIN.setValueFactory(gradesSecDEL);
+//
+//        SpinSTARThourIN.setEditable(true);
+//        SpinSTARTminIN.setEditable(true);
+//        SpinSTARTsecIN.setEditable(true);
+//
+//        SpinDELhourIN.setEditable(true);
+//        SpinDELminIN.setEditable(true);
+//        SpinDELsecIN.setEditable(true);
+
+
+        //OUT
+        SpinnerValueFactory<Integer> gradesHour1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, NOW.getHour());
+        SpinnerValueFactory<Integer> gradesMin1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinute());
+        SpinnerValueFactory<Integer> gradesSec1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSecond());
+
+        SpinnerValueFactory<Integer> gradesHourDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
+        SpinnerValueFactory<Integer> gradesMinDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30);
+        SpinnerValueFactory<Integer> gradesSecDEL1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30);
+
+        SpinSTARThourOUT.setValueFactory(gradesHour1);
+        SpinSTARTminOUT.setValueFactory(gradesMin1);
+        SpinSTARTsecOUT.setValueFactory(gradesSec1);
+
+        SpinDELhourOUT.setValueFactory(gradesHourDEL1);
+        SpinDELminOUT.setValueFactory(gradesMinDEL1);
+        SpinDELsecOUT.setValueFactory(gradesSecDEL1);
+
+        SpinSTARThourOUT.setEditable(true);
+        SpinSTARTminOUT.setEditable(true);
+        SpinSTARTsecOUT.setEditable(true);
+
+        SpinDELhourOUT.setEditable(true);
+        SpinDELminOUT.setEditable(true);
+        SpinDELsecOUT.setEditable(true);
+    }
+    void initializeTable(){
+        columnTripIN.setCellValueFactory(new PropertyValueFactory<TableIN, String>("trip"));
+        columnPlaneIN.setCellValueFactory(new PropertyValueFactory<TableIN,String>("plane"));
+        columnHight.setCellValueFactory(new PropertyValueFactory<TableIN, String>("hight"));
+        columnDistance.setCellValueFactory(new PropertyValueFactory<TableIN, String>("distance"));
+
+        columnTripOUT.setCellValueFactory(new PropertyValueFactory<TableOUT, String>("trip"));
+        columnPlaneOUT.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("plane"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("time"));
+    }
+
+    void createFileInput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, LocalTime NOW, ObservableList<TableIN> table){
+
+        System.out.println(FieldPathIN.getText());
+        int CountFlightsIN = SpinCountPlaneIN.getValue();
+
+        Flight flightsIN[] = new Flight[CountFlightsIN];
+
+        double[][] hightDist = generateDistANDHight(CountFlightsIN);
+
+        //create random buf IN flights
+        for (int i = 0; i < CountFlightsIN; i++) {
+            //temps
+            Plane temp = planes.get(random.nextInt(12));
+            int flagAirLine = random.nextInt(airlines.length);
+            int flagDirect = random.nextInt(directions.length);
+
+            flightsIN[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(900) + 100,
+                    directions[flagDirect], NOW, true, hightDist[i][1], hightDist[i][0]);
+
+            System.out.println("create IN ↓ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Distance: " + hightDist[i][1] +" |Hight: " + hightDist[i][0]);
+            table.add(new TableIN(flightsIN[i].number,flightsIN[i].carrier,hightDist[i][1], hightDist[i][0], flightsIN[i].plane));
+        }
+            try {
+                createJson(FieldPathIN.getText(), flightsIN);
+            } catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    void createFileOutput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, ObservableList<TableOUT> table){
+        System.out.println(FieldPathOUT.getText());
+        int CountFlightsOUT = SpinCountPlaneOUT.getValue();
+
+        Flight flightsOUT[] = new Flight[CountFlightsOUT];
+
+        String log = "";
+
+        //create random temp out flights
+        LocalTime bufTime = LocalTime.of(SpinSTARThourOUT.getValue(), SpinSTARTminOUT.getValue(), SpinSTARTsecOUT.getValue());
+        for (int i = 0; i < CountFlightsOUT; i++){
+            Plane temp = planes.get(random.nextInt(12));
+            int flagAirLine = random.nextInt(airlines.length);
+            int flagDirect = random.nextInt(directions.length);
+            if (i != 0) {
+                bufTime = bufTime.plusHours(SpinDELhourOUT.getValue());
+                bufTime = bufTime.plusMinutes(SpinDELminOUT.getValue());
+                bufTime = bufTime.plusSeconds(SpinDELsecOUT.getValue());
+            }
+            flightsOUT[i] = new Flight(temp, airlines[flagAirLine], random.nextInt(900)+100, directions[flagDirect], bufTime);
+            table.add(new TableOUT( flightsOUT[i].number, flightsOUT[i].carrier, bufTime,  flightsOUT[i].plane));
+            System.out.println("create OUT ↑ _#" + temp.name + " " + airlines[flagAirLine].name() + " |Time: " + bufTime.toString());
+        }
+
+        try {
+            createJson(FieldPathOUT.getText(), flightsOUT);
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public double[][] generateDistANDHight (int count){
+        //так же, поступает n - кол-во элементов
+        double[][] res = new double[count][2];
+        double[] hight = new double[count];
+        double[] dist = new double[count];
+
+        hight[0] = 0.6;
+        dist[0] = 60;
+
+        for(int i=1;i<4;i++){
+            hight[i] = 0.2*(((i*i)+i)+3);
+            dist[i]=(11.1806*(hight[i]*hight[i]))+(128.313*hight[i])- 4.4237;
+        }
+        int t,y=4;
+        while(y!=count){
+            hight[y] = hight[y-4]+0.15;
+            dist[y] = dist[y-4]+10;
+            y++;
+        }
+        for(int i=0;i<count;i++){
+            hight[i]*=1000;
+        }
+        double tt;
+        for (int gap = count / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < count; i += 1) {
+                tt = hight[i];
+                int j;
+                for (j = i; j >= gap && hight[j - gap]>tt; j -= gap)
+                    hight[j] = hight[j - gap];
+                hight[j] = tt;
+            }
+        }
+        for (int gap = count / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < count; i += 1) {
+                t = (int)dist[i];
+                int j;
+                for (j = i; j >= gap && (int)dist[j - gap]>t; j -= gap)
+                    dist[j] = (int)dist[j - gap];
+                dist[j] = t;
+            }
+        }
+        for(int i=0;i<count;i++){
+            System.out.println((int)(hight[i]*1000)+"м" + "\t" +(int)dist[i]+"км");
+            res[i][0] = (int)hight[i];
+            res[i][1] = (int)dist[i];
+        }
+        return res;
+    }
+   // firstTextCol.setStyle( "-fx-alignment: CENTER-RIGHT;");
 }
 
