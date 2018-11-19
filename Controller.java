@@ -136,10 +136,8 @@ public class Controller{
         //File defaultDirectory = new File(System.getProperty("user.home")+"\\Documents\\");
         //chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(null);
-        if (selectedDirectory == null){
+        if (selectedDirectory == null)
             System.out.println((char)27 + "[32mWARNING: (#FileChooser) no directory selected"+(char)27+"[30m");
-            System.out.println((char) 27 + "[30m");
-        }
         else
             FieldPathIN.setText(selectedDirectory.getAbsolutePath()+"\\testINPUT.json");
     }
@@ -152,10 +150,8 @@ public class Controller{
         //chooser.setInitialDirectory(defaultDirectory);
 
         File selectedDirectory = chooser.showDialog(null);
-        if (selectedDirectory == null) {
+        if (selectedDirectory == null)
             System.out.println((char)27 + "[32mWARNING: (#FileChooser) no directory selected"+(char)27+"[30m");
-            System.out.println((char) 27 + "[30m");
-        }
         else
         FieldPathOUT.setText(selectedDirectory.getAbsolutePath()+"\\testOUTPUT.json");
     }
