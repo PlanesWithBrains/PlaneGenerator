@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 
 import javax.swing.*;
@@ -98,8 +99,8 @@ public class Controller{
         initializeSPINNERS(NOW);
         initializeTable();
 
-        FieldPathIN.setText(System.getProperty("user.home")+"\\Documents\\"+"testIN.json");
-        FieldPathOUT.setText(System.getProperty("user.home")+"\\Documents\\"+"testOUT.json");
+        FieldPathIN.setText(System.getProperty("user.home")+"\\Documents\\"+"testINPUT.json");
+        FieldPathOUT.setText(System.getProperty("user.home")+"\\Documents\\"+"testOUTPUT.json");
 
         startGENButton.setOnAction(event -> {
             //table buffers
@@ -130,30 +131,40 @@ public class Controller{
 
 
     public void filechooser(javafx.event.ActionEvent actionEvent) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose directory");
-        //ONLY FOR WINDOWS
-        //File defaultDirectory = new File(System.getProperty("user.home")+"\\Documents\\");
-        //chooser.setInitialDirectory(defaultDirectory);
-        File selectedDirectory = chooser.showDialog(null);
-        if (selectedDirectory == null)
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+        //директория по умолчанию
+        try {
+            File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\");
+            fc.setInitialDirectory(initialDirectory);
+            fc.setInitialFileName("testINPUT.json");
+        }
+        catch (Exception exp){ //если MAC os
+            System.out.println((char)27 + "[32m"+exp.getMessage());
+        }
+        File f = fc.showSaveDialog(null);
+        if (f != null)
             System.out.println((char)27 + "[32mWARNING: (#FileChooser) no directory selected"+(char)27+"[30m");
         else
-            FieldPathIN.setText(selectedDirectory.getAbsolutePath()+"\\testINPUT.json");
+            FieldPathIN.setText(f.getAbsolutePath());
     }
     public void filechooserOUT(javafx.event.ActionEvent actionEvent) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose directory");
-
-        //ONLY FOR WINDOWS
-        //File defaultDirectory = new File(System.getProperty("user.home")+"\\Documents\\");
-        //chooser.setInitialDirectory(defaultDirectory);
-
-        File selectedDirectory = chooser.showDialog(null);
-        if (selectedDirectory == null)
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+        //директория по умолчанию
+        try {
+            File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\");
+            fc.setInitialDirectory(initialDirectory);
+            fc.setInitialFileName("testOUTPUT.json");
+        }
+        catch (Exception exp){ //если MAC os
+            System.out.println((char)27 + "[32m"+exp.getMessage());
+        }
+        File f = fc.showSaveDialog(null);
+        if (f != null)
             System.out.println((char)27 + "[32mWARNING: (#FileChooser) no directory selected"+(char)27+"[30m");
         else
-        FieldPathOUT.setText(selectedDirectory.getAbsolutePath()+"\\testOUTPUT.json");
+            FieldPathOUT.setText(f.getAbsolutePath());
     }
 
     void initializeSPINNERS(LocalTime NOW){
