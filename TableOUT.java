@@ -3,6 +3,8 @@ package sample;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class TableOUT {
     private final SimpleStringProperty trip;
@@ -11,7 +13,8 @@ public class TableOUT {
 
     public TableOUT(int number, Airline airline, LocalTime t, Plane p){
         this.trip = new SimpleStringProperty(String.valueOf(number) + " " + airline.name());
-        this.time = new SimpleStringProperty(t.toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "HH:mm" , Locale.US );
+        this.time = new SimpleStringProperty(t.format(formatter));
         this.plane = new SimpleStringProperty(p.name);
     }
     public String getPlane(){return plane.get();}
