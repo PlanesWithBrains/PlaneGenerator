@@ -17,7 +17,7 @@ public class Plane {
         this.lengthRunway = LengthRun;
         this.countPassangers = CountPass;
     }
-    static ArrayList<Plane> getPlanes(){ //метод для рандома - рандом будет получать рандомный самолет из этого списка
+    static ArrayList<Plane> getPlanes(){
         ArrayList<Plane> temp = new ArrayList<>();
         //Имя, вес, кр. скорость, длина разбега, число мест
         temp.add(new Plane("A310",1900,280));

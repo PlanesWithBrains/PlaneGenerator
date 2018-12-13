@@ -6,16 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("generator.fxml")); //подгружаем наш шаблон окна
 
-        Scene scene = new Scene(root); //хуйня чисто для scene builder
-        stage.setTitle("Plane Generator ©Hobots inc"); //название окна
-        stage.setScene(scene); //хуйня чисто для scene builder
-        stage.show(); //запускаем окно
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+
+        Scene scene = new Scene(root);
+        stage.setTitle("Plane Generator ©Hobots inc");
+        stage.setScene(scene);
+        stage.show();
     }
 
 
