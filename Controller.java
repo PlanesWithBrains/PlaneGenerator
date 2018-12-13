@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.DirectoryIteratorException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -47,6 +49,8 @@ public class Controller{
     private Spinner<Integer> SpinCountPlaneIN;
     @FXML
     private Spinner<Integer> SpinCountPlaneOUT;
+
+
     @FXML
     private Spinner<Integer> SpinSTARThourOUT;
 
@@ -56,8 +60,10 @@ public class Controller{
     @FXML
     private Spinner<Integer> SpinSTARTsecOUT;
 
+
     @FXML
     private Spinner<Integer> SpinDELhourOUT;
+
 
     @FXML
     private Spinner<Integer> SpinDELminOUT;
@@ -90,11 +96,13 @@ public class Controller{
 
     @FXML
     private TableColumn<TableOUT, String> columnTime;
+    @FXML
+    private TableColumn<TableOUT, String> columnDate;
 
 
     @FXML
     void initialize() {
-        LocalTime NOW = LocalTime.now();
+        LocalDateTime NOW = LocalDateTime.now();
 
         initializeSPINNERS(NOW);
         initializeTable();
@@ -167,7 +175,7 @@ public class Controller{
             FieldPathOUT.setText(f.getAbsolutePath());
     }
 
-    void initializeSPINNERS(LocalTime NOW){
+    void initializeSPINNERS(LocalDateTime NOW){
         //spinners
 
         //count planes IN
@@ -209,6 +217,7 @@ public class Controller{
 
 
         //OUT
+
         SpinnerValueFactory<Integer> gradesHour1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, NOW.getHour());
         SpinnerValueFactory<Integer> gradesMin1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinute());
         SpinnerValueFactory<Integer> gradesSec1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSecond());
@@ -242,9 +251,10 @@ public class Controller{
         columnTripOUT.setCellValueFactory(new PropertyValueFactory<TableOUT, String>("trip"));
         columnPlaneOUT.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("plane"));
         columnTime.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("time"));
+        columnDate.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("date"));
     }
 
-    void createFileInput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, LocalTime NOW, ObservableList<TableIN> table){
+    void createFileInput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, LocalDateTime NOW, ObservableList<TableIN> table){
 
         System.out.println((char) 27 + "[34m"+"\n"+FieldPathIN.getText());;
         int CountFlightsIN = SpinCountPlaneIN.getValue();
@@ -283,7 +293,7 @@ public class Controller{
         String log = "";
 
         //create random temp out flights
-        LocalTime bufTime = LocalTime.of(SpinSTARThourOUT.getValue(), SpinSTARTminOUT.getValue(), SpinSTARTsecOUT.getValue());
+        LocalDateTime bufTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(SpinSTARThourOUT.getValue(), SpinSTARTminOUT.getValue(), SpinSTARTsecOUT.getValue()));
         for (int i = 0; i < CountFlightsOUT; i++){
             Plane temp = planes.get(random.nextInt(12));
             int flagAirLine = random.nextInt(airlines.length);

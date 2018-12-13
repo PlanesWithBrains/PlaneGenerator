@@ -1,5 +1,6 @@
 package sample;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 enum Airline{
@@ -23,12 +24,12 @@ public class Flight{
     int number;
     Plane plane;
     Direction direction;
-    LocalTime time;
+    LocalDateTime time;
     boolean status;
     double distance;
     double hight;
 
-    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t, boolean state, double dist, double hig){ //для посадки
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalDateTime t, boolean state, double dist, double hig){ //для посадки
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;
@@ -39,7 +40,7 @@ public class Flight{
         this.hight = hig;
     }
 
-    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t){ //для взлета
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalDateTime t){ //для взлета
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;
