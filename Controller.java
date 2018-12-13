@@ -20,11 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-
-
-import javax.swing.*;
 
 
 public class Controller{
@@ -86,6 +82,9 @@ public class Controller{
     private TableColumn<TableIN, String> columnHight;
 
     @FXML
+    private TableColumn<TableIN, Integer> columnNumbIN;
+
+    @FXML
     private TableView<TableOUT> TableOUT;
 
     @FXML
@@ -96,8 +95,12 @@ public class Controller{
 
     @FXML
     private TableColumn<TableOUT, String> columnTime;
+
     @FXML
     private TableColumn<TableOUT, String> columnDate;
+
+    @FXML
+    private TableColumn<TableOUT, Integer> columnNumbOUT;
 
 
     @FXML
@@ -112,6 +115,8 @@ public class Controller{
 
         startGENButton.setOnAction(event -> {
             //table buffers
+            sample.TableIN.setCount(0);
+            sample.TableOUT.setCount(0);
             ObservableList<TableIN> bufIN = FXCollections.observableArrayList();
             ObservableList<TableOUT> bufOUT = FXCollections.observableArrayList();
 
@@ -247,11 +252,13 @@ public class Controller{
         columnPlaneIN.setCellValueFactory(new PropertyValueFactory<TableIN,String>("plane"));
         columnHight.setCellValueFactory(new PropertyValueFactory<TableIN, String>("hight"));
         columnDistance.setCellValueFactory(new PropertyValueFactory<TableIN, String>("distance"));
+        columnNumbIN.setCellValueFactory(new PropertyValueFactory<TableIN,Integer>("number"));
 
         columnTripOUT.setCellValueFactory(new PropertyValueFactory<TableOUT, String>("trip"));
         columnPlaneOUT.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("plane"));
         columnTime.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("time"));
         columnDate.setCellValueFactory(new PropertyValueFactory<TableOUT,String>("date"));
+        columnNumbOUT.setCellValueFactory(new PropertyValueFactory<TableOUT,Integer>("number"));
     }
 
     void createFileInput(ArrayList<Plane> planes, Airline[] airlines, Direction[] directions, LocalDateTime NOW, ObservableList<TableIN> table){
