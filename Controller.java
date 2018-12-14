@@ -191,36 +191,6 @@ public class Controller{
         SpinnerValueFactory<Integer> gradesCount1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 2000, 50);
         SpinCountPlaneOUT.setValueFactory(gradesCount1);
         SpinCountPlaneOUT.setEditable(true);
-        //TIME START
-
-        //TIME NOW
-
-//        //VALUE FACTORY
-//        SpinnerValueFactory<Integer> gradesHour = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, NOW.getHour());
-//        SpinnerValueFactory<Integer> gradesMin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getMinute());
-//        SpinnerValueFactory<Integer> gradesSec = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, NOW.getSecond());
-//
-//        SpinnerValueFactory<Integer> gradesHourDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
-//        SpinnerValueFactory<Integer> gradesMinDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30);
-//        SpinnerValueFactory<Integer> gradesSecDEL = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 30);
-//
-//        SpinSTARThourIN.setValueFactory(gradesHour);
-//        SpinSTARTminIN.setValueFactory(gradesMin);
-//        SpinSTARTsecIN.setValueFactory(gradesSec);
-//
-//        SpinDELhourIN.setValueFactory(gradesHourDEL);
-//        SpinDELminIN.setValueFactory(gradesMinDEL);
-//        SpinDELsecIN.setValueFactory(gradesSecDEL);
-//
-//        SpinSTARThourIN.setEditable(true);
-//        SpinSTARTminIN.setEditable(true);
-//        SpinSTARTsecIN.setEditable(true);
-//
-//        SpinDELhourIN.setEditable(true);
-//        SpinDELminIN.setEditable(true);
-//        SpinDELsecIN.setEditable(true);
-
-
         //OUT
 
         SpinnerValueFactory<Integer> gradesHour1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, NOW.getHour());
